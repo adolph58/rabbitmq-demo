@@ -1,0 +1,26 @@
+server:
+  port: 6002
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: consumer
+
+  rabbitmq:
+    host: localhost                # 服务器 IP
+    port: 5672                       # 服务器端口
+    username: admin                  # 用户名
+    password: 123456                 # 密码
+    virtual-host: /                  # 虚拟主机地址
+    listener:
+      direct:
+        retry:
+          enabled: true              # 是否开启发布重试
+          max-attempts: 5            # 最大重试次数
+          initial-interval: 5000     # 重试间隔时间（单位毫秒）
+      simple:
+        retry:
+          enabled: true              # 是否开启消费者重试
+          max-attempts: 5            # 最大重试次数
+          initial-interval: 5000     # 重试间隔时间（单位毫秒）
