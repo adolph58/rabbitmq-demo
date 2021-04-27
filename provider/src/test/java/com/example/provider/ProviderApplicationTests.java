@@ -5,8 +5,6 @@ import com.example.common.sender.RabbitMQSender;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.stream.IntStream;
-
 /**
  * @author Arte
  * @create 21-3-16
@@ -21,15 +19,13 @@ public class ProviderApplicationTests {
 
     @Test
     void sendMsg() {
-        String s = "";
-        StringBuffer sb = new StringBuffer();
-        IntStream.range(0, 100000).forEach(i -> {
-            sb.append(i);
-        });
-        s = sb.toString();
-
-        System.out.println(s.length());
-
+        String s = "hello,test";
         RabbitMQSender.sendMessage(MQConfig.TEST_ROUTINGKEY, s);
+    }
+
+    @Test
+    void sendFanoutMsg() {
+        String s = "hello,fanout";
+        RabbitMQSender.sendMessage(null, s, MQConfig.FANOUT_EXCHANGE);
     }
 }

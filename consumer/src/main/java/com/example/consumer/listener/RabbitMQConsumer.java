@@ -62,6 +62,36 @@ public class RabbitMQConsumer {
 	}
 
 	/**
+	 * 监听扇形交换机
+	 */
+	@RabbitListener(queues = MQConfig.FANOUT_QUEUE_A)
+	@RabbitHandler
+	public void fanoutAReceiver(Message message, Channel channel) throws IOException {
+		log.info("fanoutA：接收到扇形交换机消息");
+		messageHandler(message, channel);
+	}
+
+	/**
+	 * 监听扇形交换机
+	 */
+	@RabbitListener(queues = MQConfig.FANOUT_QUEUE_B)
+	@RabbitHandler
+	public void fanoutBReceiver(Message message, Channel channel) throws IOException {
+		log.info("fanoutB：接收到扇形交换机消息");
+		messageHandler(message, channel);
+	}
+
+	/**
+	 * 监听扇形交换机
+	 */
+	@RabbitListener(queues = MQConfig.FANOUT_QUEUE_C)
+	@RabbitHandler
+	public void fanoutCReceiver(Message message, Channel channel) throws IOException {
+		log.info("fanoutC：接收到扇形交换机消息");
+		messageHandler(message, channel);
+	}
+
+	/**
 	 * 监听多个队列
 	 */
 //	@RabbitListener(queues = {MQConfig.TEST_QUEUE, MQConfig.DEMO_QUEUE}, concurrency = "10")
@@ -79,7 +109,6 @@ public class RabbitMQConsumer {
             MessageBody messageBody = MessageBody.getMessageBody(message);
             messageId = messageBody.getMessageId();
 			log.info("接收到消息Body：{}", messageBody.toString());
-			log.info("消息体大小：" + messageBody.getData(String.class).length());
 		} catch (Exception e) {
             action = Action.REJECT;
 //            long increment = redisUtilsTwo.increment(messageId);
